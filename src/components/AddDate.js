@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addDateAction } from '../redux/actions/datesActions';
+import { validateFormAction } from '../redux/actions/validatorActions';
+import uuid from 'uuid/v4';
 
 const AddDate = props => {
     // State del componente
@@ -8,15 +12,48 @@ const AddDate = props => {
     const [hour, saveHour] = useState('');
     const [sintomas, saveSintomas] = useState('');
 
+    // Dispatch para ejecurar las acciones
+    const dispatch = useDispatch();
+    const addNewDate = date => dispatch(addDateAction(date));
+    const validateForm = formState => dispatch(validateFormAction(formState));
+
+    // useSelector es similiar a mapStateToProps en Hooks
+    const error = useSelector(state => state.error);
+
     // Cuando el formulario es enviado
     const submitNewDate = e => {
         e.preventDefault();
 
         // Validar el formulario
+        if (
+            pet.trim() === '' ||
+            propietario.trim() === '' ||
+            date.trim() === '' ||
+            hour.trim() === '' ||
+            sintomas.trim() === ''
+        ) {
+            validateForm(true);
+            return;
+        }
+
+        validateForm(false);
 
         // Crear la nueva cita
+        addNewDate({
+            id: uuid(),
+            pet,
+            propietario,
+            date,
+            hour,
+            sintomas
+        });
 
         // Reiniciar el formulario
+        savePet('');
+        savePropietario('');
+        saveDate('');
+        saveHour('');
+        saveSintomas('');
     };
 
     return (
@@ -89,6 +126,9 @@ const AddDate = props => {
                         </div>
                     </div>
                 </form>
+                {error.error ? (
+                    <div className="alert alert-danger text-center p2">Todos los campos son obligatorios.</div>
+                ) : null}
             </div>
         </div>
     );
