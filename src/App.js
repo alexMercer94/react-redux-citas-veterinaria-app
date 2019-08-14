@@ -4,6 +4,7 @@ import AddDate from './components/AddDate';
 // Redux
 import store from './store';
 import { Provider } from 'react-redux';
+import DatesList from './components/datesList';
 
 function App() {
     return (
@@ -16,7 +17,9 @@ function App() {
                     <div className="col-md-6">
                         <AddDate />
                     </div>
-                    <div className="col-md-6">Listado</div>
+                    <div className="col-md-6">
+                        <DatesList />
+                    </div>
                 </div>
             </div>
         </Provider>

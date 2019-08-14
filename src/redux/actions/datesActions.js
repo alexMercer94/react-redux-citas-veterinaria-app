@@ -4,3 +4,10 @@ export const addDateAction = date => {
         payload: date
     };
 };
+
+export const deleteDateAction = id => {
+    return {
+        type: 'DELETE_DATE',
+        payload: id
+    };
+};
